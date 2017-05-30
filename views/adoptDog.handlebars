@@ -1,0 +1,69 @@
+
+    <div class="container" id="adoptDog">
+
+        <!-- Page Header -->
+        <!-- <div class="row">
+            <div class="col-lg-12"> -->
+                <h1 class="page-header">Dogs Up for Adoption
+
+                </h1>
+
+                <form  id="myForm" action="/adoptDog/search" method="POST" >
+              	    <div class="col-md-4">
+              	      <input type="radio" id="rb"  name="size" value="small" /> Small
+              	    </div>
+
+              	    <div class="col-md-4">
+              	      <input type="radio" id="rb" name="size" value="medium" /> Medium
+              	    </div>
+
+              	    <div class="col-md-4">
+              	      <input type="radio" id="rb" name="size" value="large" /> Large
+              	    </div>
+
+              	  </form>
+            <!-- </div>
+        </div> -->
+        <div class='row'>
+        <!-- /.row -->
+        {{#data}}
+        <div class="col-md-4">
+              <!-- <div class="col-md-4 portfolio-item"> -->
+                <!-- <a href="#"> -->
+                    <img class="img-responsive img" src="{{image}}" alt="">
+                <!-- </a> -->
+                <h3>
+                  {{name}}
+                </h3>
+                <p>Age: {{age}}</p><p>Gender: {{gender}}</p>
+                <p>Size: {{size}}</p>
+                <p>Bio: {{bio}}</p>
+              <!-- </div> -->
+            </div>
+            {{/data}}
+          </div>
+
+
+          <hr>
+          <div>
+            <div class="col-md-7 pull-right">
+              <p>Created By:</p>
+              <p><a href="https://github.com/SomeRandomCoder">Tyron Burkhardt</a><br> & <br><a href="https://github.com/danger12001">Paul Robertson</a></p>
+
+            </div>
+          </div>
+    </div>
+
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+      $('#myForm input').on('change', function() {
+        var searchVal = $('input[name=size]:checked', '#myForm').val();
+      $.get("/adoptDog/search/" + searchVal, function(results){
+        $("#adoptDog").html(results)
+
+     });
+    });
+    });
+
+    </script>
