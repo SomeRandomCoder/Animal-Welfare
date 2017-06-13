@@ -1,10 +1,17 @@
-<div class="container">
+<div class="container" id="allAnimals" >
     <h1 class="page-header">Animals up for Adoption</h1>
+<div class="col-md-12">
+    <form  id="myForm" action="/allAnimals/search" method="POST" >
+  			<div class="col-md-12">
+  				 <input id="searchBar" type="text"  name="searchVal" placeholder="Search.." >
+  			</div>
+  	  </form>
+    </div>
 
-    <div class='row'>
+    <div class='row' id="allAnimals">
 
     {{#data}}
-    <div class="col-md-4">
+    <div class="col-md-4" >
         <form action='/allAnimals/remove/{{id}}' method='POST'>
           <img class="img-responsive img" src="{{image}}" alt="">
           <button class="col-md-12" type='submit'>REMOVE</button>
@@ -26,3 +33,18 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#searchBar').keyup(function(){
+      var searchVal= $("#searchBar").val();
+      if(searchVal.length === 5){
+      $.get("/allAnimals/search/" + searchVal, function(results){
+        console.log(searchVal);
+        $("#allAnimals").html(results)
+      });
+    }
+    })
+  })
+
+</script>

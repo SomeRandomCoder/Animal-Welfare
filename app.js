@@ -15,6 +15,7 @@ var app = express();
 var adoptions = require('./functions/adoptions');
 var mailer = require('./functions/mailer');
 var eventCRUD = require('./functions/eventCRUD');
+var animalDonations = require('./functions/AnimalDonations');
 
 var login = require("./functions/login");
 
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(flash());
 app.use(express.static("public"));
+
 
 var dbOptions = {
   host: "127.0.0.1",
@@ -52,6 +54,11 @@ app.use(session({
   resave: true,
   saveUninitialized: false
 }));
+//app.use(multer({dest: './public/uploads/'}).any());
+
+var uploads = multer({
+  dest: './public/uploads/'
+});
 
 app.use(function(req,res,next){
 
@@ -75,18 +82,17 @@ app.use(function(req,res,next){
               || req.path.split("/")[1] === "logout"
               || req.path.split("/")[1] === "allAnimals"
               || req.path.split("/")[1] === "directions"
-              || req.path.split("/")[1] === "Comments"
-              || req.path.split("/")[1] === "addComment"
+              || req.path.split("/")[1] === "Events"
+              || req.path.split("/")[1] === "addEvent"
               || req.path.split("/")[1] === "adoptCatSearch"
+              || req.path.split("/")[1] === "donationsCapture"
               || req.path === "/";
 
 
 
   var adminPath = req.path.split("/")[2] === "add"
-                // ||req.path.split("/")[1] === "Comments"
-
-
-                || req.path.split("/")[1] === "allAnimals";
+               //||req.path.split("/")[1] === "Comments"
+               || req.path.split("/")[1] === "allAnimals";
 
 // console.log("hello " + req.session.username);
   if(!admin && adminPath){
@@ -117,6 +123,9 @@ app.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
+app.get("/donationsCapture", function(req,res){
+  res.render("donationsCapture",{admin:req.session.admin, user:req.session.username});
+});
 
 app.get("/", function(req, res) {
   res.render("index",{admin: req.session.admin, user: req.session.username});
@@ -138,19 +147,13 @@ app.get("/adoptions/add", function(req, res) {
   res.render("addAnimal",{admin: req.session.admin, user: req.session.username});
 });
 
+"string".replace('/', 'ForwardSlash');
+//app.post('/adoptions/add', uploads.single('img'), adoptions.add);
 app.post('/adoptions/add',multer({ dest: './public/uploads/'}).single('img') ,adoptions.add);
+
  app.get("/adoptCat", adoptions.showCat);
   app.get("/adoptCat/search/:searchVal", adoptions.searchCat);
   app.post("/adoptCat/search/", adoptions.searchCat);
-
- // app.get("/adoptDog/search", function(req,res){
- //   res.render("adoptCatSearch",{admin: req.session.admin, user: req.session.username});
- // })
-
-
-
- // app.get("/adoptCat/search/searchVal", adoptions.search);
- // app.post("/adoptCat/search/", adoptions.search);
 
 app.get("/adoptDog", adoptions.showDog);
 app.get("/adoptDog/search/:searchVal", adoptions.searchDog);
@@ -158,11 +161,18 @@ app.post("/adoptDog/search/", adoptions.searchDog);
 
 app.get("/allAnimals", adoptions.showAll);
 app.post('/allAnimals/remove/:id', adoptions.remove);
+  app.get("/allAnimals/search/:searchVal", adoptions.allAnimalsRefCode);
+  app.post("/allAnimals/search/", adoptions.allAnimalsRefCode);
 
-app.get("/allAnimals", function(req, res) {
-  res.render("allAnimals",{admin: req.session.admin, user: req.session.username});
-});
-app.get("/allAnimals", adoptions.showAll);
+
+
+  app.get('/Events', eventCRUD.showAll);
+  app.post('/Events/addEvent', eventCRUD.add);
+  app.post('/Events/remove/:id', eventCRUD.remove);
+  app.get("/addEvent", function(req,res){
+    res.render("addEvent",{admin: req.session.admin, user: req.session.username});
+  });
+
 
 app.get("/inspectors", function(req, res) {
   res.render("inspectors",{admin: req.session.admin, user: req.session.username});
@@ -183,41 +193,37 @@ app.get("/GivenGain", function(req, res) {
 
 app.get("/directions", function(req,res){
   res.render("directions",{admin: req.session.admin, user: req.session.username});
-})
-
-app.get("/addComment", function(req,res){
-  res.render("addEvent",{admin: req.session.admin, user: req.session.username});
-})
-
-
-
-
-app.get('/Comments', function(req, res, next) {
-    req.getConnection(function(err, connection) {
-      connection = mysql.createConnection(dbOptions);
-        // connection = mysql.createConnection(dbOptions);
-        if (err) return next(err);
-        connection.query("SELECT events.title, events.description, DATE_FORMAT(events.date,'%W %m-%d-%Y at %l:%i:%p') as date, events.name FROM events ORDER BY `events`.`date` DESC", [],function(err, data) {
-            if (err) return next(err);
-            if(req.session.admin){
-              res.render("Comments", {
-                data: data,
-                admin: req.session.admin ,
-                  user: req.session.username
-            });
-          }
-          else{
-            res.render("comments",{
-              data: data
-            });
-          }
-            // timestamp format:    '%W %m %d %Y at %l:%i:%p'     Date:'%d %b %y'
-        });
-    });
 });
-app.get('/Comments', eventCRUD.showAll);
-app.post('/Comments/addComment', eventCRUD.add);
-app.post('/Comments/remove/:id', eventCRUD.remove);
+
+
+
+
+
+
+// app.get('/Comments', function(req, res, next) {
+//     req.getConnection(function(err, connection) {
+//       connection = mysql.createConnection(dbOptions);
+//         // connection = mysql.createConnection(dbOptions);
+//         if (err) return next(err);
+//         connection.query("SELECT events.title, events.description, DATE_FORMAT(events.date,'%W %m-%d-%Y at %l:%i:%p') as date, events.name FROM events ORDER BY `events`.`date` DESC", [],function(err, data) {
+//             if (err) return next(err);
+//             if(req.session.admin){
+//               res.render("Comments", {
+//                 data: data,
+//                 admin: req.session.admin ,
+//                   user: req.session.username
+//             });
+//           }
+//           else{
+//             res.render("comments",{
+//               data: data
+//             });
+//           }
+//             // timestamp format:    '%W %m %d %Y at %l:%i:%p'     Date:'%d %b %y'
+//         });
+//     });
+// });
+
 
 
 

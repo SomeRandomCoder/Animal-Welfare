@@ -7,6 +7,30 @@
 
 }
 
+.col-lg-3:nth-child(4n+1){
+    clear: left;
+}
+.thumbnail{
+  min-height: 450px;
+}
+
+
+
+
+.col-md-4:nth-child(4n+1){
+    clear: left;
+}
+
+
+.adoptionsimages
+{
+    width: 100%;
+    max-width:242px;
+    max-height:242px;
+    min-width:100px;
+    min-height: 100px;
+}
+
 
 .row-list{
   width:85%;
@@ -50,14 +74,14 @@ margin-bottom: 5px;
 
 body{
   /*background-color: aqua;*/
-  background: linear-gradient(to right, #66b3ff, #80bfff);
+  background: linear-gradient(to right, #4e89e8, #769fe2);
 }
 
 body{margin:0;}
 ul.topnav {
   list-style-type: none;
   margin: 0;
-  padding-left: 15%;
+  padding-left: 17.5%;
   padding-right: 15%;
 /*padding: 0;*/
   overflow: hidden;

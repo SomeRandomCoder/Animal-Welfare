@@ -21,27 +21,61 @@
               	      <input type="radio" id="rb" name="size" value="large" /> Large
               	    </div>
 
+
               	  </form>
             <!-- </div>
         </div> -->
+        {{#unless admin}}
+    		{{#unless admin}}
         <div class='row'>
         <!-- /.row -->
         {{#data}}
         <div class="col-md-4">
-              <!-- <div class="col-md-4 portfolio-item"> -->
-                <!-- <a href="#"> -->
-                    <img class="img-responsive img" src="{{image}}" alt="">
-                <!-- </a> -->
-                <h3>
-                  {{name}}
-                </h3>
+          <div class="col-sm-3 col-md-3 col-lg-3" >
+            <div class="thumbnail">
+              <img class="adoptionsimages" src="{{image}}"    alt="...">
+              <div class="caption">
+                <h3>{{name}}</h3>
                 <p>Age: {{age}}</p><p>Gender: {{gender}}</p>
                 <p>Size: {{size}}</p>
                 <p>Bio: {{bio}}</p>
+                <!-- <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> -->
+              </div>
+            </div>
+          </div>
+
               <!-- </div> -->
             </div>
             {{/data}}
           </div>
+          {{/unless}}
+      		{{/unless}}
+
+          {{#if admin}}
+
+          <div class='row'>
+          <!-- /.row -->
+          {{#data}}
+            <div class="col-sm-3 col-md-3 col-lg-3" >
+              <div class="thumbnail">
+                <img class="adoptionsimages" src="{{image}}"    alt="...">
+                <div class="caption">
+                  <h3>{{name}}</h3>
+                  <p>Age: {{age}}</p><p>Gender: {{gender}}</p>
+                  <p>Size: {{size}}</p>
+                  <p>Bio: {{bio}}</p>
+                  <p>Reference Code: {{refcode}} </p>
+                  <!-- <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> -->
+                </div>
+              </div>
+            </div>
+
+                <!-- </div> -->
+
+              {{/data}}
+            </div>
+            {{/if}}
+
 
 
           <hr>
@@ -65,5 +99,7 @@
      });
     });
     });
+
+
 
     </script>

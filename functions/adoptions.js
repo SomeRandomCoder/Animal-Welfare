@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 var fs = require('fs');
+var nav = require('navigator');
 var dbOptions = {
     host: "127.0.0.1",
     user: 'root',
@@ -9,20 +10,44 @@ var dbOptions = {
     database: 'animalWelfare'
 };
 
+// function makeRefCode(){
+//   var text= "";
+//   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+//
+//   for(var i = 0; i <5 i++){
+//     text += possible.charAt(Math.floor(Math.random()*possible.length));
+//     console.log(text);
+//     return text;
+//   }
+// }
+
 var connection = mysql.createConnection(dbOptions);
 exports.add = function(req, res) {
+  var text= "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for(var i = 0; i <5; i++)
+  {
+    text += possible.charAt(Math.floor(Math.random()*possible.length));
+  }
+    console.log(text);
 
     // var file = req.body.img;
-    var path = (req.file.path).replace("public/", '');
+
+    //var path = (req.file.path).replace("public"+slash, ''); //USE THIS LINE OF CODE WHEN  TESTING ON WINDOWS MACHINE ELSE IMAGES WONT LOAD WHEN GETTING ANIMALS FROM DATABASE
+
+     var path = (req.file.path).replace("public\\", ''); //USE THIS LINE OF CODE WHEN  TESTING ON WINDOWS MACHINE  ELSE IMAGES WONT LOAD WHEN GETTING ANIMALS FROM DATABASE DUE TO PATH IN 'IMAGE' COLUMN IS A \
+    //  var path = (req.file.path).replace("public/", ''); //USE THIS LINE OF CODE WHEN  TESTING ON LINUX MACHINE ELSE IMAGES WONT LOAD WHEN GETTING ANIMALS FROM DATABASE
     // var path = (req.file.path).replace("public\\" , '');
     var data = {
         animal: req.body.animal,
         name: req.body.name,
         age: req.body.age,
-        size: req.body.size,
         gender: req.body.gender,
         bio: req.body.bio,
-        image: path
+        size: req.body.size,
+        image: path,
+        refcode: text
     };
     connection.query('INSERT INTO `adoptions` SET ?', [data], function(err, rows) {
         if (err) console.log(err);
@@ -32,13 +57,14 @@ exports.add = function(req, res) {
 };
 
 exports.showCat = function(req, res) {
-    connection.query('SELECT * FROM `adoptions` WHERE animal = "cat"', [], function(err, results) {
+    connection.query('SELECT * FROM `adoptions` WHERE animal = "cat" ', [], function(err, results) {
         // console.log(results);
         return res.render('adoptCat', {
             data: results,
             admin: req.session.admin,
             user: req.session.username
         });
+
     });
 };
 
@@ -69,6 +95,24 @@ exports.searchCat = function(req, res, next){
       if(err)
       return console.log(err);
       res.render('adoptCat',{
+            data : result,
+        		admin: req.session.admin,
+						user: req.session.username,
+						layout:false
+      });
+    });
+  });
+};
+
+exports.allAnimalsRefCode = function(req, res, next){
+  req.getConnection(function(err, connection) {
+     var searchVals =  '%'+req.params.searchVal+ '%';
+    console.log("Search Value value: " + searchVals + " from searchQuery Function");
+    console.log("---------------------------------------------------");
+    connection.query('SELECT * FROM adoptions WHERE adoptions.refcode LIKE ?', [searchVals], function(err, result){
+      if(err)
+      return console.log(err);
+      res.render('allAnimals',{
             data : result,
         		admin: req.session.admin,
 						user: req.session.username,
@@ -151,7 +195,7 @@ exports.showAll = function(req, res) {
 };
 exports.remove = function(req, res) {
     var id = req.params.id;
-
+    console.log(id);
     connection.query('SELECT image FROM adoptions where id = ?', id, function(err, image) {
         fs.unlink('./public/' + image[0].image);
         connection.query('DELETE FROM adoptions WHERE id= ?', id, function(err, rows) {
