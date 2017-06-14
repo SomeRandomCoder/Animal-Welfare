@@ -3,7 +3,7 @@
 <div class="col-md-12">
     <form  id="myForm" action="/allAnimals/search" method="POST" >
   			<div class="col-md-12">
-  				 <input id="searchBar" type="text"  name="searchVal" placeholder="Search.." >
+  				 <input id="searchBar" class="pull-right" type="text"  name="searchVal" placeholder="Search.." >
   			</div>
   	  </form>
     </div>
@@ -11,7 +11,32 @@
     <div class='row' id="allAnimals">
 
     {{#data}}
-    <div class="col-md-4" >
+    <div class="col-md-3" >
+        <form action='/allAnimals/remove/{{id}}' method='POST'>
+
+          <div class="well">
+            <button type="submit" id="btnremove" class="glyphicon glyphicon-remove btn btn-primary pull-right" ></button>
+
+          <div class="thumbnail">
+
+
+      			<img class="adoptionsimages" src="{{image}}"    alt="...">
+      			<div class="caption">
+      				<h3>{{name}}</h3>
+      				<p>Age: {{age}}</p><p>Gender: {{gender}}</p>
+      				<p>Size: {{size}}</p>
+      				<p>Bio: {{bio}}</p>
+              <p>Reference Code : {{refcode}}</p>
+      				<!-- <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> -->
+      			</div>
+          </div>
+        </div>
+          </form>
+    </div>
+    {{/data}}
+
+
+    <!-- <div class="col-md-4" >
         <form action='/allAnimals/remove/{{id}}' method='POST'>
           <img class="img-responsive img" src="{{image}}" alt="">
           <button class="col-md-12" type='submit'>REMOVE</button>
@@ -21,8 +46,8 @@
               <p>Age: {{age}}</p><p>Gender: {{gender}}</p>
               <p>Bio: {{bio}}</p>
           </form>
-    </div>
-    {{/data}}
+    </div> -->
+
   </div>
   <hr>
   <div>

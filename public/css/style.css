@@ -7,6 +7,28 @@
 
 }
 
+#btnremove{
+  margin-bottom:10px;
+  margin-right:5px;
+   margin-top:5px;
+}
+
+.circle {
+  border-radius: 100%;
+  border: 0.25em solid black;
+  height: 50px;
+  width: 50px;
+}
+.glyphicon.glyphicon-edit {
+  font-size: 28px;
+  padding: 8px 0 0 3px;
+}
+.circle button {
+  background: none;
+  border: none;
+  outline: none;
+}
+
 .col-lg-3:nth-child(4n+1){
     clear: left;
 }
@@ -145,6 +167,7 @@ ul.topnav li.icon {display: none;}
 }
 .row{
   display: inline-block;
+  margin-top: 20px;
 }
 
 .sliderContainer{

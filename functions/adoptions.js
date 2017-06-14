@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var fs = require('fs');
-var nav = require('navigator');
+
 var dbOptions = {
     host: "127.0.0.1",
     user: 'root',
