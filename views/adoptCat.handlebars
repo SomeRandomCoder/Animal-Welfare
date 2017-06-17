@@ -1,25 +1,32 @@
 <div class="container" id="adoptCat">
 	<h1 class="page-header">Cats Up for Adoption</h1>
 	<form  id="myForm" action="/adoptCat/search" method="POST" >
-	    <div class="col-md-4">
+	    <div class="col-md-3">
 	      <input type="radio" id="rb"  name="size" value="small" /> Small
 	    </div>
 
-	    <div class="col-md-4">
+	    <div class="col-md-3">
 	      <input type="radio" id="rb" name="size" value="medium" /> Medium
 	    </div>
 
-	    <div class="col-md-4">
+	    <div class="col-md-3">
 	      <input type="radio" id="rb" name="size" value="large" /> Large
 	    </div>
-	  </form>
 
-		<div class="row" >
+
+
+		</form>
+		<button type="submit" onClick="Reload()" id="btnRefresh" class="glyphicon glyphicon-repeat btn btn-primary pull-right" ></button>
+
+
+		<div class="row">
 			{{#data}}
-	<div class="col-sm-3 col-md-3 col-lg-3" >
+	<div class="col-lg-3 col-md-5 col-sm-6 col-xs-12 thumb">
 		<div class="well">
 		<div class="thumbnail">
-			<img class="adoptionsimages" src="{{image}}"    alt="...">
+
+				<img class="adoptionsimages" src="{{image}}" alt="...">
+
 			<div class="caption">
 				<h3>{{name}}</h3>
 				<p>Age: {{age}}</p><p>Gender: {{gender}}</p>
@@ -108,6 +115,10 @@
 		 });
 	 });
  });
+
+ function Reload(){
+	 location.reload();
+ }
 
 
 

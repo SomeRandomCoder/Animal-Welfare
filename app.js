@@ -148,6 +148,9 @@ app.get("/adoptions/add", function(req, res) {
   res.render("addAnimal",{admin: req.session.admin, user: req.session.username});
 });
 
+
+
+
 "string".replace('/', 'ForwardSlash');
 //app.post('/adoptions/add', uploads.single('img'), adoptions.add);
 app.post('/adoptions/add',multer({ dest: './public/uploads/'}).single('img') ,adoptions.add);

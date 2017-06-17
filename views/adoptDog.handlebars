@@ -23,75 +23,33 @@
 
 
               	  </form>
+
+                  <button type="submit" onClick="Reload()" id="btnRefresh" class="glyphicon glyphicon-repeat btn btn-primary pull-right" ></button>
             <!-- </div>
         </div> -->
-        {{#unless admin}}
-    		{{#unless admin}}
-        <!-- <div class='row'>
 
-        {{#data}}
-        <div class="col-md-4">
-          <div class="col-sm-3 col-md-3 col-lg-3" >
-            <div class="thumbnail">
-              <img class="adoptionsimages" src="{{image}}"    alt="...">
-              <div class="caption">
-                <h3>{{name}}</h3>
-                <p>Age: {{age}}</p><p>Gender: {{gender}}</p>
-                <p>Size: {{size}}</p>
-                <p>Bio: {{bio}}</p>
-
-              </div>
-            </div>
-          </div>
-
-
-            </div>
-            {{/data}}
-          </div> -->
 
           <div class="row" >
             {{#data}}
-        <div class="col-sm-3 col-md-3 col-lg-3" >
-          <div class="thumbnail">
-            <img class="adoptionsimages" src="{{image}}"    alt="...">
-            <div class="caption">
-              <h3>{{name}}</h3>
-              <p>Age: {{age}}</p><p>Gender: {{gender}}</p>
-              <p>Size: {{size}}</p>
-              <p>Bio: {{bio}}</p>
-              <!-- <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> -->
-            </div>
-          </div>
-        </div>
+              <div class="col-lg-3 col-md-5 col-sm-6 col-xs-12 thumb">
+          		<div class="well">
+          		<div class="thumbnail">
+          			<img class="adoptionsimages" src="{{image}}"    alt="...">
+          			<div class="caption">
+          				<h3>{{name}}</h3>
+          				<p>Age: {{age}}</p><p>Gender: {{gender}}</p>
+          				<p>Size: {{size}}</p>
+          				<p>Bio: {{bio}}</p>
+          				<!-- <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> -->
+          			</div>
+          		</div>
+          	</div>
+          	</div>
         {{/data}}
       </div>
-          {{/unless}}
-      		{{/unless}}
 
-          {{#if admin}}
 
-          <div class='row'>
-          <!-- /.row -->
-          {{#data}}
-            <div class="col-sm-3 col-md-3 col-lg-3" >
-              <div class="thumbnail">
-                <img class="adoptionsimages" src="{{image}}"    alt="...">
-                <div class="caption">
-                  <h3>{{name}}</h3>
-                  <p>Age: {{age}}</p><p>Gender: {{gender}}</p>
-                  <p>Size: {{size}}</p>
-                  <p>Bio: {{bio}}</p>
-                  <p>Reference Code: {{refcode}} </p>
-                  <!-- <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> -->
-                </div>
-              </div>
-            </div>
 
-                <!-- </div> -->
-
-              {{/data}}
-            </div>
-            {{/if}}
 
 
 
@@ -116,6 +74,10 @@
      });
     });
     });
+
+    function Reload(){
+   	 location.reload();
+    }
 
 
 
